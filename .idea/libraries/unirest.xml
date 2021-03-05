@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="com.fasterxml.jackson.core:jackson-databind:2.11.2" type="repository">
+  <library name="unirest" type="repository">
     <properties maven-id="com.fasterxml.jackson.core:jackson-databind:2.11.2" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.11.2/jackson-databind-2.11.2.jar!/" />
