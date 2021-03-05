@@ -1,11 +1,7 @@
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
-import java.util.List;
-
-import org.jgrapht.*;
-import org.jgrapht.alg.*;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.tour.GreedyHeuristicTSP;
 import org.jgrapht.graph.*;
 
 import java.util.ArrayList;
@@ -22,12 +18,13 @@ public class Main {
         Addresses.add("1+joan muyskenweg+Amsterdam"); /* Start address */
         Addresses.add("32+dokter van deenweg+zwolle");
         Addresses.add("22+ben viegerstraat+nunspeet");
-        /*Addresses.add("40+Watersnip+ijsselmuiden");*/
+        Addresses.add("69+Langestraat+amersfoort");
+        Addresses.add("40+Watersnip+ijsselmuiden");
 
-        SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>  graph =
-                new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>
+        /* Sets the size amount of the graph */
+        var graph =
+                new SimpleWeightedGraph<String, DefaultWeightedEdge>
                         (DefaultWeightedEdge.class);
-
         for(int c = 0; c < Addresses.size(); ++c){
             graph.addVertex(Addresses.get(c));
         }
@@ -40,16 +37,20 @@ public class Main {
 
         System.out.println("The amount of combinations: " + totalCombinations + "\n");
 
-        int current_combination = 0;
-
         for(int a = 0; a < Addresses.size(); ++a) {
             /* Starts a loop that loops over every origin destination */
             String origin = Addresses.get(a);
             for (int b = 0; b < Addresses.size(); b++) {
                 /* Loops over every possible destination address except for the same address */
                 if (b != a){
-                    current_combination ++;
                     String destination = Addresses.get(b);
+
+                    /* This makes sure that the same kinda combination won't be saved in the graph because otherwise it will crash because the graph already knows a -> b if you also want to insert b -> a. */
+                    DefaultWeightedEdge e1 = graph.addEdge(origin, destination);
+                    if(e1 == null){
+                        continue;
+                    }
+
                     /* Builds the URL with the given data and sends it as json. */
                     JSONObject response = Unirest.post(urlStart + "origins=" + origin + "&" + "destinations=" + destination + urlEnd)
                             .asJson()
@@ -64,14 +65,11 @@ public class Main {
 
                     /* Puts the json in a jason var so you can print it. */
 
-                    /* Make SimpleDirectedWeightedGraph */
-
                     Long distance = response.getJSONObject("distance") .getLong("value");
                     Long duration = response.getJSONObject("duration") .getLong("value");
-
-                    DefaultWeightedEdge  = graph.addEdge(origin, destination);
                     graph.setEdgeWeight(e1, distance);
 
+                    System.out.println("Address combination: " + origin + ", " + destination);
                     System.out.println("Distance: " + distance);
                     System.out.println("Duration: " + duration);
                     System.out.println("-----------------------------------------------------------------------------------");
@@ -79,37 +77,9 @@ public class Main {
             }
         }
 
-        DefaultWeightedEdge e2 = graph.addEdge("vertex2", "vertex3");
-        graph.setEdgeWeight(e2, 3);
+        var tsp = new GreedyHeuristicTSP();
 
-        DefaultWeightedEdge e3 = graph.addEdge("vertex4", "vertex5");
-        graph.setEdgeWeight(e3, 6);
-
-        DefaultWeightedEdge e4 = graph.addEdge("vertex2", "vertex4");
-        graph.setEdgeWeight(e4, 2);
-
-        DefaultWeightedEdge e5 = graph.addEdge("vertex5", "vertex4");
-        graph.setEdgeWeight(e5, 4);
-
-
-        DefaultWeightedEdge e6 = graph.addEdge("vertex2", "vertex5");
-        graph.setEdgeWeight(e6, 9);
-
-        DefaultWeightedEdge e7 = graph.addEdge("vertex4", "vertex1");
-        graph.setEdgeWeight(e7, 7);
-
-        DefaultWeightedEdge e8 = graph.addEdge("vertex3", "vertex2");
-        graph.setEdgeWeight(e8, 2);
-
-        DefaultWeightedEdge e9 = graph.addEdge("vertex1", "vertex3");
-        graph.setEdgeWeight(e9, 10);
-
-        DefaultWeightedEdge e10 = graph.addEdge("vertex3", "vertex5");
-        graph.setEdgeWeight(e10, 1);
-
-
-        System.out.println("Shortest path from vertex1 to vertex5:");
-
-        System.out.println(DijkstraShortestPath.findPathBetween(graph, "vertex1", "vertex5"));
+        var perfectRoute  = tsp.getTour(graph);
+        System.out.println(perfectRoute);
     }
 }
