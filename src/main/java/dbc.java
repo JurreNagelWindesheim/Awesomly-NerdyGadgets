@@ -1,5 +1,6 @@
 /* URL used: https://mariadb.com/kb/en/java-connector-using-maven/ */
 import java.sql.*;
+import java.util.ArrayList;
 
 public class dbc {
 
@@ -13,6 +14,8 @@ public class dbc {
         String password = null;
         String db = "nerdygadgets";
 
+        ArrayList<String> Addresses = new ArrayList<>();
+
         //create connection for a server installed in localhost
         try {
             conn = DriverManager.getConnection("jdbc:mariadb://localhost/" + db, user, password);
@@ -21,13 +24,16 @@ public class dbc {
             stmt = conn.createStatement();
 
             //execute query
-            try (ResultSet rs = stmt.executeQuery("INSERT INTO `routes` (`routeId`, `peopleId`, `routeData`, `routeDate`) VALUES (NULL, '1199', '{\\r\\n\t\\\"userId\\\": 1,\\r\\n\t\\\"id\\\": 1,\\r\\n\t\\\"title\\\": \\\"delectus aut autem\\\",\\r\\n\t\\\"completed\\\": false\\r\\n}', current_timestamp());")) {
+            try (ResultSet rs = stmt.executeQuery("SELECT DeliveryInstructions FROM invoices WHERE LastEditedWhen LIKE '"+java.time.LocalDate.now()+"%'")) {
                 //position result to first
-                rs.first();
+                while (rs.next()) {
+//                    String place = rs.getString(1);
+//                    Addresses.add(rs.getString(1));
+                    System.out.println("routes in db: "+ rs.getString(1));
+                }
+//                rs.first();
 
                 // print result
-//                System.out.println("routes cities in db: " + rs.getString(1));
-                System.out.println("Success!");
             }
         } catch (Exception e) {
             // catch errors

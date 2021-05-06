@@ -114,11 +114,18 @@ public class Main{
         genRoutePanel.setVisible(true);
     }
 
-    public static void generateRoute(){
-         /* get db conneection dbc.getConnection(); */
+    public static void generateRoute() throws SQLException {
         /* The url set up string and the end string that contains the api key, this way it only has to be assigned once */
         String urlStart = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=driving&";
         String urlEnd = "&key=AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw";
+
+        /* get db connection */
+        // dbc.getConnection();
+        /*
+        * TODO:
+        * - DBC get addresses en set connection
+        * - Array maken en vullen met addresses
+        * */
 
         ArrayList<String> Addresses = new ArrayList<>();
         Addresses.add("109+Dijkweg+Oudeschip"); /* Start address */
@@ -189,8 +196,9 @@ public class Main{
         System.out.println(perfectRoute);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         generateMainScreen();
+        dbc.getConnection();
     }
 
 }
