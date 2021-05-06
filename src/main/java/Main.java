@@ -12,10 +12,6 @@ import java.util.ArrayList;
 
 /*API key: AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw */
 
-public class Main {
-    private static JFrame frame = new JFrame();
-    private static JPanel panel = new JPanel();
-    private static JButton button = new JButton("Genereer Route");
 
     private static GraphPath perfectRoute;
 
