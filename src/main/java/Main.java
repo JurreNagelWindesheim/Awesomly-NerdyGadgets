@@ -1,6 +1,7 @@
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.tour.*;
 import org.jgrapht.graph.*;
 
@@ -11,12 +12,13 @@ import java.util.ArrayList;
 /*API key: AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw */
 
 public class Main {
+    private static JFrame frame = new JFrame();
+    private static JPanel panel = new JPanel();
+    private static JButton button = new JButton("Genereer Route");
+
+    private static GraphPath perfectRoute;
 
     public static void generateGui(){
-        JFrame frame = new JFrame();
-        JPanel panel = new JPanel();
-        JButton button = new JButton("Genereer Route");
-
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(0, 1));
         panel.setBounds(300, 300,300, 300);
@@ -99,7 +101,7 @@ public class Main {
         var tsp = new GreedyHeuristicTSP();
 
         System.out.println("De beste route is:");
-        var perfectRoute  = tsp.getTour(graph);
+        perfectRoute  = tsp.getTour(graph);
         var text = perfectRoute.toString();
         JLabel label = new JLabel(text);
         frame.add(label);
