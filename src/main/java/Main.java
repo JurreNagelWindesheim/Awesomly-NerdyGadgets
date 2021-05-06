@@ -7,6 +7,7 @@ import org.jgrapht.graph.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /*API key: AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw */
@@ -107,12 +108,14 @@ public class Main {
         frame.add(label);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         /* make gui */
-
         generateGui();
         generateRoute();
 
         System.out.println(perfectRoute);
+
+        /* DBC */
+        dbc.getConnection();
     }
 }
