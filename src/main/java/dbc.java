@@ -1,3 +1,4 @@
+/* URL used: https://mariadb.com/kb/en/java-connector-using-maven/ */
 import java.sql.*;
 
 public class dbc {
