@@ -7,27 +7,115 @@ import org.jgrapht.graph.*;
 
 import javax.swing.*;
 import java.awt.*;
+
 import java.sql.SQLException;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 
 /*API key: AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw */
 
+public class Main{
+    /* main screen */
+    private static JFrame mainFrame = new JFrame();
+    private static JPanel mainPanel = new JPanel();
+    private static JButton showLoginButton = new JButton("Login");
+    private static JLabel label = new JLabel();
+
+    /* login screen */
+    private static JPanel loginPanel = new JPanel();
+    private static JButton loginButton = new JButton("Login");
+    private static JLabel username = new JLabel("Naam: ");
+    private static JLabel password = new JLabel("Wachtwoord: ");
+    private static JTextField usernameInput = new JTextField();
+    private static JTextField passwordInput = new JTextField();
+
+
+    /* generate route screen */
+    private static JPanel genRoutePanel = new JPanel();
+    private static JButton genRouteButton = new JButton("Genereer Route");
+    private static JLabel routeGeneratedLabel = new JLabel();
 
     private static GraphPath perfectRoute;
 
-    public static void generateGui(){
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setLayout(new GridLayout(0, 1));
-        panel.setBounds(300, 300,300, 300);
+    public static void generateMainScreen(){
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.add(mainPanel, BorderLayout.CENTER);
 
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Route Applicatie");
-        frame.pack();
-        frame.setVisible(true);
+        mainPanel.setLayout(null);
+
+        showLoginButton.setBounds(10,80, 80,25);
+        showLoginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.setVisible(false);
+                generateLogin();
+            }
+        });
+
+        mainPanel.add(showLoginButton);
+
+        mainPanel.setBounds(20, 90, 100, 20);
+        mainPanel.add(label);
+
+        mainFrame.setTitle("Route Applicatie");
+        mainFrame.pack();
+        mainFrame.setSize(1080, 720);
+
+        mainFrame.setVisible(true);
+    }
+
+    public static void generateLogin(){
+        mainFrame.add(loginPanel, BorderLayout.CENTER);
+        loginPanel.setLayout(null);
+
+        username.setBounds(10, 20, 100, 25);
+        usernameInput.setBounds(100, 20, 165, 25);
+        loginPanel.add(username);
+        loginPanel.add(usernameInput);
+
+        password.setBounds(10, 50, 100, 25);
+        passwordInput.setBounds(100, 50, 165, 25);
+        loginPanel.add(password);
+        loginPanel.add(passwordInput);
+
+        loginButton.setBounds(10, 80, 100, 25);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginPanel.setVisible(false);
+                generateGenRoute();
+            }
+        });
+        loginPanel.add(loginButton);
+
+        loginPanel.setVisible(true);
+    }
+
+    public static void generateGenRoute(){
+        mainFrame.add(genRoutePanel, BorderLayout.CENTER);
+        genRoutePanel.setLayout(null);
+
+        genRouteButton.setBounds(10, 20, 200, 25);
+        genRouteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                routeGeneratedLabel.setText("Route gegenereerd.");
+                generateRoute();
+            }
+        });
+        genRoutePanel.add(genRouteButton);
+        routeGeneratedLabel.setBounds(10, 50, 200, 25);
+        genRoutePanel.add(routeGeneratedLabel);
+
+
+        genRoutePanel.setVisible(true);
     }
 
     public static void generateRoute(){
+         /* get db conneection dbc.getConnection(); */
         /* The url set up string and the end string that contains the api key, this way it only has to be assigned once */
         String urlStart = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=driving&";
         String urlEnd = "&key=AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw";
@@ -97,20 +185,12 @@ import java.util.ArrayList;
         GreedyHeuristicTSP tsp = new GreedyHeuristicTSP();
 
         System.out.println("De beste route is:");
-        perfectRoute  = tsp.getTour(graph);
-        String text = perfectRoute.toString();
-        JLabel label = new JLabel(text);
-        frame.add(label);
-    }
-
-    public static void main(String[] args) throws SQLException {
-        /* make gui */
-        generateGui();
-        generateRoute();
-
+        perfectRoute = tsp.getTour(graph);
         System.out.println(perfectRoute);
-
-        /* DBC */
-        dbc.getConnection();
     }
+
+    public static void main(String[] args) {
+        generateMainScreen();
+    }
+
 }
