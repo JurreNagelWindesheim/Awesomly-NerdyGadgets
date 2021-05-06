@@ -43,9 +43,8 @@ public class Main {
         Addresses.add("21+Molengracht+Breda");
 
         /* Sets the size amount of the graph */
-        var graph =
-                new SimpleWeightedGraph<String, DefaultWeightedEdge>
-                        (DefaultWeightedEdge.class);
+        SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<String, DefaultWeightedEdge>
+                (DefaultWeightedEdge.class);
         for (String address : Addresses) {
             graph.addVertex(address);
         }
@@ -99,11 +98,11 @@ public class Main {
             }
         }
 
-        var tsp = new GreedyHeuristicTSP();
+        GreedyHeuristicTSP tsp = new GreedyHeuristicTSP();
 
         System.out.println("De beste route is:");
         perfectRoute  = tsp.getTour(graph);
-        var text = perfectRoute.toString();
+        String text = perfectRoute.toString();
         JLabel label = new JLabel(text);
         frame.add(label);
     }
