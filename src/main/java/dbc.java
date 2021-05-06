@@ -21,12 +21,13 @@ public class dbc {
             stmt = conn.createStatement();
 
             //execute query
-            try (ResultSet rs = stmt.executeQuery("SELECT count(*) FROM cities")) {
+            try (ResultSet rs = stmt.executeQuery("INSERT INTO `routes` (`routeId`, `peopleId`, `routeData`, `routeDate`) VALUES (NULL, '1199', '{\\r\\n\t\\\"userId\\\": 1,\\r\\n\t\\\"id\\\": 1,\\r\\n\t\\\"title\\\": \\\"delectus aut autem\\\",\\r\\n\t\\\"completed\\\": false\\r\\n}', current_timestamp());")) {
                 //position result to first
                 rs.first();
 
                 // print result
-                System.out.println("Aantal cities in db: " + rs.getString(1));
+//                System.out.println("routes cities in db: " + rs.getString(1));
+                System.out.println("Success!");
             }
         } catch (Exception e) {
             // catch errors
