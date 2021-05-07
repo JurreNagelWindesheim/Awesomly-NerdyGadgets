@@ -8,6 +8,7 @@ import org.jgrapht.graph.*;
 import javax.swing.*;
 import java.awt.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import java.awt.event.ActionEvent;
@@ -103,7 +104,11 @@ public class Main{
             @Override
             public void actionPerformed(ActionEvent e) {
                 routeGeneratedLabel.setText("Route gegenereerd.");
-                generateRoute();
+                try {
+                    generateRoute();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
         genRoutePanel.add(genRouteButton);
@@ -119,28 +124,14 @@ public class Main{
         String urlStart = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=driving&";
         String urlEnd = "&key=AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw";
 
-        /*
-         * TODO:
-         * - DBC get addresses en set connection
-         * - Array maken en vullen met addresses
-         * */
-
-        /* get db connection */
-        dbc.getConnection();
-
-        /* array with addresses */
-        //...
-
-
-        ArrayList<String> Addresses = new ArrayList<>();
-
-        /* Start address here's the Distribution centre (start and end destination) */
-        Addresses.add("109+Dijkweg+Oudeschip");
-
-        /* loop through results and add */
-        Addresses.add("1+Dr. G.H. Amshoffweg+Hoogeveen");
-        Addresses.add("60+Floresstraat+Zwolle");
-        Addresses.add("21+Molengracht+Breda");
+        /* get db connection, perform SQL getRoutes and close connection */
+        ArrayList<String> Addresses = null;
+        try (Connection conn = dbconn.getConnection()) {
+            Addresses = getRoutesStmt.getRoutes(conn);
+            dbclose.closeConnection(conn);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
 
         /* Sets the size amount of the graph */
         SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<String, DefaultWeightedEdge>
@@ -153,22 +144,23 @@ public class Main{
         int amountOfAddresses = Addresses.size();
 
         /* Calculates the amount of possible combinations. */
+        // int totalCombinations = (amountOfAddresses * amountOfAddresses) - amountOfAddresses;
+        // System.out.println("The amount of combinations: " + totalCombinations + "\n");
 
-        /*int totalCombinations = (amountOfAddresses * amountOfAddresses) - amountOfAddresses;
-
-        System.out.println("The amount of combinations: " + totalCombinations + "\n");*/
-
-        for(int a = 0; a < Addresses.size(); ++a) {
+        for (int a = 0; a < Addresses.size(); ++a) {
             /* Starts a loop that loops over every origin destination */
             String origin = Addresses.get(a);
             for (int b = 0; b < Addresses.size(); b++) {
                 /* Loops over every possible destination address except for the same address */
-                if (b != a){
+                if (b != a) {
                     String destination = Addresses.get(b);
 
-                    /* This makes sure that the same kinda combination won't be saved in the graph because otherwise it will crash because the graph already knows a -> b if you also want to insert b -> a. */
+                    /*
+                    * This makes sure that the same kinda combination won't be saved in the graph,
+                    * because otherwise it will crash because the graph already knows a -> b if you also want to insert b -> a
+                    */
                     DefaultWeightedEdge e1 = graph.addEdge(origin, destination);
-                    if(e1 == null){
+                    if (e1 == null) {
                         continue;
                     }
 
@@ -181,19 +173,20 @@ public class Main{
                             .getJSONObject(0)
                             .getJSONArray("elements")
                             .getJSONObject(0);
-                            /*.getJSONObject("distance")
-                            .getLong("value");*/
+                            // .getJSONObject("distance")
+                            // .getLong("value");
 
-                    /* Puts the json in a jason var so you can print it. */
-                    Long distance = response.getJSONObject("distance") .getLong("value");
-                    /*Long duration = response.getJSONObject("duration") .getLong("value");*/
+                    /* Puts the regular json in a json variable so you can print it */
+                    Long distance = response.getJSONObject("distance").getLong("value");
+                    // Long duration = response.getJSONObject("duration") .getLong("value");
 
                     graph.setEdgeWeight(e1, distance);
 
-                    /*System.out.println("Address combination: " + origin + ", " + destination);
-                    System.out.println("Distance: " + distance);
-                    System.out.println("Duration: " + duration);
-                    System.out.println("-----------------------------------------------------------------------------------");*/
+                    /* print all possible combinations on the given addresses */
+                    // System.out.println("Address combination: " + origin + ", " + destination);
+                    // System.out.println("Distance: " + distance);
+                    // System.out.println("Duration: " + duration);
+                    // System.out.println("-----------------------------------------------------------------------------------");
                 }
             }
         }
@@ -205,9 +198,7 @@ public class Main{
         System.out.println(perfectRoute);
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         generateMainScreen();
-        dbc.getConnection();
     }
-
 }
