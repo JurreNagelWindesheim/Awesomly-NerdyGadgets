@@ -119,16 +119,25 @@ public class Main{
         String urlStart = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=driving&";
         String urlEnd = "&key=AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw";
 
-        /* get db connection */
-        // dbc.getConnection();
         /*
-        * TODO:
-        * - DBC get addresses en set connection
-        * - Array maken en vullen met addresses
-        * */
+         * TODO:
+         * - DBC get addresses en set connection
+         * - Array maken en vullen met addresses
+         * */
+
+        /* get db connection */
+        dbc.getConnection();
+
+        /* array with addresses */
+        //...
+
 
         ArrayList<String> Addresses = new ArrayList<>();
-        Addresses.add("109+Dijkweg+Oudeschip"); /* Start address */
+
+        /* Start address here's the Distribution centre (start and end destination) */
+        Addresses.add("109+Dijkweg+Oudeschip");
+
+        /* loop through results and add */
         Addresses.add("1+Dr. G.H. Amshoffweg+Hoogeveen");
         Addresses.add("60+Floresstraat+Zwolle");
         Addresses.add("21+Molengracht+Breda");
