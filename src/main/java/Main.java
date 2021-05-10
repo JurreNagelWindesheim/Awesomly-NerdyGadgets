@@ -22,7 +22,7 @@ public class Main{
     /* main screen */
     private static JFrame mainFrame = new JFrame();
     private static JPanel mainPanel = new JPanel();
-    private static JButton showLoginButton = new JButton("Login");
+    private static JButton showLoginButton = new JButton("Routebepaling");
     private static JLabel label = new JLabel();
 
     /* login screen */
@@ -47,7 +47,7 @@ public class Main{
 
         mainPanel.setLayout(null);
 
-        showLoginButton.setBounds(10,80, 80,25);
+        showLoginButton.setBounds(880,510, 120,25);
         showLoginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,12 +58,12 @@ public class Main{
 
         mainPanel.add(showLoginButton);
 
-        mainPanel.setBounds(20, 90, 100, 20);
+        mainPanel.setBounds(0, 0, 1920, 1080);
         mainPanel.add(label);
 
         mainFrame.setTitle("Route Applicatie");
         mainFrame.pack();
-        mainFrame.setSize(1080, 720);
+        mainFrame.setSize(1920, 1080);
 
         mainFrame.setVisible(true);
     }
@@ -72,22 +72,26 @@ public class Main{
         mainFrame.add(loginPanel, BorderLayout.CENTER);
         loginPanel.setLayout(null);
 
-        username.setBounds(10, 20, 100, 25);
-        usernameInput.setBounds(100, 20, 165, 25);
+        username.setBounds(832, 497, 100, 25);
+        usernameInput.setBounds(922, 497, 165, 25);
         loginPanel.add(username);
         loginPanel.add(usernameInput);
 
-        password.setBounds(10, 50, 100, 25);
-        passwordInput.setBounds(100, 50, 165, 25);
+        password.setBounds(832, 527, 100, 25);
+        passwordInput.setBounds(922, 527, 165, 25);
         loginPanel.add(password);
         loginPanel.add(passwordInput);
 
-        loginButton.setBounds(10, 80, 100, 25);
+        loginButton.setBounds(910,557, 80,25);
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginPanel.setVisible(false);
-                generateGenRoute();
+                String usernameText = usernameInput.getText();
+                String passwordText = passwordInput.getText();
+                if(usernameText.equals("admin") && passwordText.equals("test")){
+                    loginPanel.setVisible(false);
+                    generateGenRoute();
+                }
             }
         });
         loginPanel.add(loginButton);
@@ -99,7 +103,7 @@ public class Main{
         mainFrame.add(genRoutePanel, BorderLayout.CENTER);
         genRoutePanel.setLayout(null);
 
-        genRouteButton.setBounds(10, 20, 200, 25);
+        genRouteButton.setBounds(860, 510, 200, 25);
         genRouteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,9 +116,8 @@ public class Main{
             }
         });
         genRoutePanel.add(genRouteButton);
-        routeGeneratedLabel.setBounds(10, 50, 200, 25);
+        routeGeneratedLabel.setBounds(860, 540, 200, 25);
         genRoutePanel.add(routeGeneratedLabel);
-
 
         genRoutePanel.setVisible(true);
     }
