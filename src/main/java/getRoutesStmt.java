@@ -13,7 +13,8 @@ public class getRoutesStmt {
             stmt = conn.createStatement();
 
             /* execute query */
-            try (ResultSet rs = stmt.executeQuery("SELECT DeliveryInstructions FROM invoices WHERE LastEditedWhen LIKE '"+java.time.LocalDate.now()+"%'")) {
+            //try (ResultSet rs = stmt.executeQuery("SELECT DeliveryInstructions FROM invoices WHERE LastEditedWhen LIKE '"+java.time.LocalDate.now()+"%'")) {
+            try (ResultSet rs = stmt.executeQuery("SELECT DeliveryInstructions FROM invoices WHERE LastEditedWhen LIKE '2021-05-07%'")) {
 
                 /* group routes in array */
                 ArrayList<String> Addresses = new ArrayList<>();
