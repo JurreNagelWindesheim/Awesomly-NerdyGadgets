@@ -130,7 +130,6 @@ public class Main{
                         wrongLoginLabel.setText("Verkeerde login gegevens");
                         loginPanel.add(wrongLoginLabel);
                         wrongLoginLabel.setBounds(860, 440, 200, 25);
-                        dbclose.closeConnection(conn);
                     }
                 } catch (Exception err) {
                     System.out.println(err);
