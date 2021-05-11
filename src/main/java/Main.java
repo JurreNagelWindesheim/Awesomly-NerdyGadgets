@@ -158,6 +158,7 @@ public class Main{
         /* insert password into db */
 //        try (Connection conn = dbconn.getConnection()) {
 //            hashPsswdStmt.insertPsswd(conn, "admin","password");
+//        dbclose.closeConnection(conn);
 //        } catch (Exception err) {
 //            System.out.println(err);
 //        }
