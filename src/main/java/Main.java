@@ -22,20 +22,27 @@ public class Main{
     /* main screen */
     private static JFrame mainFrame = new JFrame();
     private static JPanel mainPanel = new JPanel();
-    private static JButton showLoginButton = new JButton("Routebepaling");
+    private static JButton showLoginButton = new JButton("Route beheer pagina");
+    private static JButton showDeliveryRoutesButton = new JButton("Routes");
     private static JLabel label = new JLabel();
 
     /* login screen */
     private static JPanel loginPanel = new JPanel();
+    private static JButton goToMainButton = new JButton("Terug");
     private static JButton loginButton = new JButton("Login");
     private static JLabel username = new JLabel("Naam: ");
     private static JLabel password = new JLabel("Wachtwoord: ");
     private static JTextField usernameInput = new JTextField();
     private static JTextField passwordInput = new JTextField();
 
+    /* Delivery Routes */
+    private static JPanel deliveryRoutesPanel = new JPanel();
+    private static JButton goToMainButton2 = new JButton("Terug");
+
 
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
+    private static JButton goToLogin = new JButton("Terug");
     private static JButton genRouteButton = new JButton("Genereer Route");
     private static JLabel routeGeneratedLabel = new JLabel();
     private static JLabel wrongLoginLabel = new JLabel();
@@ -49,7 +56,8 @@ public class Main{
 
         mainPanel.setLayout(null);
 
-        showLoginButton.setBounds(880,510, 120,25);
+        showLoginButton.setBounds(775,510, 180,25);
+        showDeliveryRoutesButton.setBounds(965, 510, 180, 25);
         showLoginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +65,15 @@ public class Main{
                 generateLogin();
             }
         });
+        showDeliveryRoutesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.setVisible(false);
+                generateDeliveryRoutes();
+            }
+        });
 
+        mainPanel.add(showDeliveryRoutesButton);
         mainPanel.add(showLoginButton);
 
         mainPanel.setBounds(0, 0, 1920, 1080);
@@ -74,6 +90,16 @@ public class Main{
 
         mainFrame.add(loginPanel, BorderLayout.CENTER);
         loginPanel.setLayout(null);
+
+        goToMainButton.setBounds(10, 10, 100, 25);
+        goToMainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginPanel.setVisible(false);
+                mainPanel.setVisible(true);
+            }
+        });
+        loginPanel.add(goToMainButton);
 
         username.setBounds(832, 497, 100, 25);
         usernameInput.setBounds(922, 497, 165, 25);
@@ -122,6 +148,14 @@ public class Main{
         mainFrame.add(genRoutePanel, BorderLayout.CENTER);
         genRoutePanel.setLayout(null);
 
+        goToLogin.setBounds(10,10, 100, 25);
+        goToLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                genRoutePanel.setVisible(false);
+                loginPanel.setVisible(true);
+            }
+        });
         genRouteButton.setBounds(860, 510, 200, 25);
         genRouteButton.addActionListener(new ActionListener() {
             @Override
@@ -134,11 +168,30 @@ public class Main{
                 }
             }
         });
+        genRoutePanel.add(goToLogin);
         genRoutePanel.add(genRouteButton);
         routeGeneratedLabel.setBounds(860, 540, 200, 25);
         genRoutePanel.add(routeGeneratedLabel);
 
         genRoutePanel.setVisible(true);
+    }
+
+    public static void generateDeliveryRoutes(){
+        mainFrame.add(deliveryRoutesPanel, BorderLayout.CENTER);
+        deliveryRoutesPanel.setLayout(null);
+
+        goToMainButton2.setBounds(10,10, 100, 25);
+        goToMainButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deliveryRoutesPanel.setVisible(false);
+                mainPanel.setVisible(true);
+            }
+        });
+
+        deliveryRoutesPanel.add(goToMainButton2);
+
+        deliveryRoutesPanel.setVisible(true);
     }
 
     public static void generateRoute() throws SQLException {
