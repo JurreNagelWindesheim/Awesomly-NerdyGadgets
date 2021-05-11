@@ -38,6 +38,8 @@ public class Main{
     private static JPanel genRoutePanel = new JPanel();
     private static JButton genRouteButton = new JButton("Genereer Route");
     private static JLabel routeGeneratedLabel = new JLabel();
+    private static JLabel wrongLoginLabel = new JLabel();
+
 
     private static GraphPath perfectRoute;
 
@@ -69,6 +71,7 @@ public class Main{
     }
 
     public static void generateLogin(){
+
         mainFrame.add(loginPanel, BorderLayout.CENTER);
         loginPanel.setLayout(null);
 
@@ -88,10 +91,26 @@ public class Main{
             public void actionPerformed(ActionEvent e) {
                 String usernameText = usernameInput.getText();
                 String passwordText = passwordInput.getText();
-                if(usernameText.equals("admin") && passwordText.equals("test")){
-                    loginPanel.setVisible(false);
-                    generateGenRoute();
+
+                /* Select user from db */
+                try (Connection conn = dbconn.getConnection()) {
+                    boolean user = selectuserStmt.selectUser(conn, usernameText,passwordText);
+
+                    if(user){
+                        loginPanel.setVisible(false);
+                        dbclose.closeConnection(conn);
+                        generateGenRoute();
+                    } else {
+                        wrongLoginLabel.setText("Verkeerde login gegevens");
+                        loginPanel.add(wrongLoginLabel);
+                        wrongLoginLabel.setBounds(860, 440, 200, 25);
+                        dbclose.closeConnection(conn);
+                    }
+                } catch (Exception err) {
+                    System.out.println(err);
                 }
+
+
             }
         });
         loginPanel.add(loginButton);
@@ -135,6 +154,13 @@ public class Main{
         } catch (Exception err) {
             System.out.println(err);
         }
+
+        /* insert password into db */
+//        try (Connection conn = dbconn.getConnection()) {
+//            hashPsswdStmt.insertPsswd(conn, "admin","password");
+//        } catch (Exception err) {
+//            System.out.println(err);
+//        }
 
         /* Sets the size amount of the graph */
         SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<String, DefaultWeightedEdge>
