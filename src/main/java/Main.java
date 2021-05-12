@@ -258,20 +258,24 @@ public class Main{
                             .getJSONObject(0)
                             .getJSONArray("elements")
                             .getJSONObject(0);
-                            // .getJSONObject("distance")
-                            // .getLong("value");
+                            /*.getJSONArray("duration")
+                            .getString("value");*/
+                            /*.getJSONObject(0)
+                            .getJSONLong("value");*/
+                            //.getJSONObject("distance")
+                            //.getJSONLong("value");
 
                     /* Puts the regular json in a json variable so you can print it */
                     Long distance = response.getJSONObject("distance").getLong("value");
-                    // Long duration = response.getJSONObject("duration") .getLong("value");
+                    Long duration = response.getJSONObject("duration") .getLong("value");
 
                     graph.setEdgeWeight(e1, distance);
 
                     /* print all possible combinations on the given addresses */
-                    // System.out.println("Address combination: " + origin + ", " + destination);
-                    // System.out.println("Distance: " + distance);
-                    // System.out.println("Duration: " + duration);
-                    // System.out.println("-----------------------------------------------------------------------------------");
+//                     System.out.println("Address combination: " + origin + ", " + destination);
+//                     System.out.println("Distance: " + distance);
+//                     System.out.println("Duration: " + duration);
+//                     System.out.println("-----------------------------------------------------------------------------------");
                 }
             }
         }
@@ -283,12 +287,12 @@ public class Main{
         System.out.println(perfectRoute);
 
         /* insert perfectroute into routes db */
-//        try (Connection conn = dbconn.getConnection()) {
-//            hashPsswdStmt.insertPsswd(conn, "admin","password");
-//        dbclose.closeConnection(conn);
-//        } catch (Exception err) {
-//            System.out.println(err);
-//        }
+        try (Connection conn = dbconn.getConnection()) {
+            insertPerfectrouteStmt.insertPerfectroute(conn, 3255, 4, perfectRoute);
+        dbclose.closeConnection(conn);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
     }
 
     public static void main(String[] args) {
