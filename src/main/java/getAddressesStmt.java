@@ -16,7 +16,7 @@ public class getAddressesStmt {
             //try (ResultSet rs = stmt.executeQuery("SELECT DeliveryInstructions FROM invoices WHERE LastEditedWhen LIKE '"+java.time.LocalDate.now()+"%'")) {
             try (ResultSet rs = stmt.executeQuery("SELECT DeliveryInstructions FROM invoices WHERE LastEditedWhen LIKE '2021-05-07%'")) {
 
-                /* group routes in array */
+                /* group addresses in array */
                 ArrayList<String> Addresses = new ArrayList<>();
 
                 /* Start address Distribution centre (always the same) */

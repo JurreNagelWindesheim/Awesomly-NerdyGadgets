@@ -8,6 +8,7 @@ import org.jgrapht.graph.*;
 import javax.swing.*;
 import java.awt.*;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -179,6 +180,24 @@ public class Main{
         mainFrame.add(deliveryRoutesPanel, BorderLayout.CENTER);
         deliveryRoutesPanel.setLayout(null);
 
+        String routes = null;
+        /* Select routes from db */
+//        String routes = new String();
+        try (Connection conn = dbconn.getConnection()) {
+            routes = selectroutesStmt.getRoutes(conn);
+            dbclose.closeConnection(conn);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+
+        JLabel results = new JLabel();
+        results.setBounds(832, 497, 100, 25);
+        results.setBounds(922, 497, 165, 25);
+
+            results.setText(String.valueOf(routes));
+
+        deliveryRoutesPanel.add(results);
+
         goToMainButton2.setBounds(10,10, 100, 25);
         goToMainButton2.addActionListener(new ActionListener() {
             @Override
@@ -191,9 +210,6 @@ public class Main{
         deliveryRoutesPanel.add(goToMainButton2);
 
         deliveryRoutesPanel.setVisible(true);
-
-        /* show available routes */
-
     }
 
     public static void generateRoute() throws SQLException {
