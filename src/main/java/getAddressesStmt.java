@@ -2,7 +2,7 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class getRoutesStmt {
+public class getAddressesStmt {
 
     public static ArrayList<String> getRoutes(Connection conn) {
         // initiate statement

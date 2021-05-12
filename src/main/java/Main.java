@@ -191,6 +191,9 @@ public class Main{
         deliveryRoutesPanel.add(goToMainButton2);
 
         deliveryRoutesPanel.setVisible(true);
+
+        /* show available routes */
+
     }
 
     public static void generateRoute() throws SQLException {
@@ -201,7 +204,7 @@ public class Main{
         /* get db connection, perform SQL getRoutes and close connection */
         ArrayList<String> Addresses = null;
         try (Connection conn = dbconn.getConnection()) {
-            Addresses = getRoutesStmt.getRoutes(conn);
+            Addresses = getAddressesStmt.getRoutes(conn);
             dbclose.closeConnection(conn);
         } catch (Exception err) {
             System.out.println(err);
@@ -278,6 +281,14 @@ public class Main{
         System.out.println("De beste route is:");
         perfectRoute = tsp.getTour(graph);
         System.out.println(perfectRoute);
+
+        /* insert perfectroute into routes db */
+//        try (Connection conn = dbconn.getConnection()) {
+//            hashPsswdStmt.insertPsswd(conn, "admin","password");
+//        dbclose.closeConnection(conn);
+//        } catch (Exception err) {
+//            System.out.println(err);
+//        }
     }
 
     public static void main(String[] args) {
