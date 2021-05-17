@@ -318,6 +318,37 @@ public class Main{
         System.out.println("De beste route is:");
         perfectRoute = tsp.getTour(graph);
         System.out.println(perfectRoute);
+        String test = "" + perfectRoute;
+        test = test.replace("[", "");
+        test = test.replace("]", "");
+        ArrayList<String> addresses = new ArrayList<String>();
+        String[] arrOfStr = test.split(", ");
+        int b = 0;
+        int totalduration = 0;
+        for(String a: arrOfStr){
+            addresses.add(a);
+        }
+        int stopper = addresses.size() -1;
+        for(b = 0; b < addresses.size(); b++){
+
+            if(b != stopper){
+                System.out.println(b);
+                int c = b + 1;
+                JSONObject response = Unirest.post(urlStart + "origins=" + addresses.get(b) + "&" + "destinations=" + addresses.get(c) + urlEnd)
+                        .asJson()
+                        .getBody()
+                        .getObject()
+                        .getJSONArray("rows")
+                        .getJSONObject(0)
+                        .getJSONArray("elements")
+                        .getJSONObject(0);
+
+                /* Puts the regular json in a json variable so you can print it */
+                Long duration = response.getJSONObject("duration") .getLong("value");
+                totalduration += duration;
+            }
+        }
+        System.out.println("Total duration: " + totalduration);
 
         int driverId = 3255;
 
