@@ -180,9 +180,9 @@ public class Main{
         mainFrame.add(deliveryRoutesPanel, BorderLayout.CENTER);
         deliveryRoutesPanel.setLayout(null);
 
-        String routes = null;
+        ArrayList<String> routes = new ArrayList<>();
+
         /* Select routes from db */
-//        String routes = new String();
         try (Connection conn = dbconn.getConnection()) {
             routes = selectroutesStmt.getRoutes(conn);
             dbclose.closeConnection(conn);
@@ -190,13 +190,30 @@ public class Main{
             System.out.println(err);
         }
 
-        JLabel results = new JLabel();
-        results.setBounds(832, 497, 100, 25);
-        results.setBounds(922, 497, 165, 25);
+        /* loop trough results */
+        /*
+         * Position 0 in array routes is always the id from the specific route
+         * Position 1 in array routes is always the routedata array from the specific route
+        */
+        int x = 200;
+        int y = 50;
+        for (int i = 0; i < routes.size(); i++) {
+            System.out.println("Nummer " + i + ": " + routes.get(i));
+            JLabel results = new JLabel(
+                    "<html>" +
+                            "<ul>" +
+                            "<li>" + routes.get(i)+ "</li>" +
+                            "</ul>" +
+                            "<html>");
+            results.setBounds(x, y, 1900, 200);
+            deliveryRoutesPanel.add(results);
+            y = y + 50;
+        }
 
-            results.setText(String.valueOf(routes));
-
-        deliveryRoutesPanel.add(results);
+//        JLabel results = new JLabel();
+//        results.setBounds(832, 497, 100, 25);
+//        results.setBounds(922, 497, 165, 25);
+//        results.setText(String.valueOf(routes));
 
         goToMainButton2.setBounds(10,10, 100, 25);
         goToMainButton2.addActionListener(new ActionListener() {
@@ -302,9 +319,11 @@ public class Main{
         perfectRoute = tsp.getTour(graph);
         System.out.println(perfectRoute);
 
+        int driverId = 3255;
+
         /* insert perfectroute into routes db */
         try (Connection conn = dbconn.getConnection()) {
-            insertPerfectrouteStmt.insertPerfectroute(conn, 3255, 4, perfectRoute);
+            insertPerfectrouteStmt.insertPerfectroute(conn, driverId, 4, perfectRoute);
         dbclose.closeConnection(conn);
         } catch (Exception err) {
             System.out.println(err);
