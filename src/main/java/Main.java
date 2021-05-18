@@ -36,6 +36,9 @@ public class Main {
     /* Delivery Routes */
     private static JPanel deliveryRoutesPanel = new JPanel();
     private static JButton goToMainButton2 = new JButton("Terug");
+    private static JScrollPane scollPane = new JScrollPane(deliveryRoutesPanel,
+                                                      ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                                                      ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
@@ -174,25 +177,22 @@ public class Main {
          * Position 0 in array routes is always the id from the specific route
          * Position 1 in array routes is always the routedata array from the specific route
         */
-        int x = 200;
+        int i=0;
+        JTextArea outputTextArea = new JTextArea("",i,20);
+
         int y = 50;
-        for (int i = 0; i < routes.size(); i++) {
+        for (i = 0; i < routes.size(); i++) {
             System.out.println("Nummer " + i + ": " + routes.get(i));
             JLabel results = new JLabel(
                     "<html>" +
                             "<ul>" +
-                            "<li>" + routes.get(i)+ "</li>" +
+                                "<li>" + routes.get(i)+ "</li>" +
                             "</ul>" +
-                            "<html>");
-            results.setBounds(x, y, 1900, 200);
+                         "<html>");
+            results.setBounds(200, y, 1900, 200);
             deliveryRoutesPanel.add(results);
             y = y + 50;
         }
-
-//        JLabel results = new JLabel();
-//        results.setBounds(832, 497, 100, 25);
-//        results.setBounds(922, 497, 165, 25);
-//        results.setText(String.valueOf(routes));
 
         goToMainButton2.setBounds(10,10, 100, 25);
         goToMainButton2.addActionListener(e -> {
@@ -201,6 +201,7 @@ public class Main {
         });
 
         deliveryRoutesPanel.add(goToMainButton2);
+        deliveryRoutesPanel.add(scollPane);
 
         deliveryRoutesPanel.setVisible(true);
     }

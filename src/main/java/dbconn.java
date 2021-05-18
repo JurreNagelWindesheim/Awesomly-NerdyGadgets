@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class dbconn {
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
         /* define connection */
         Connection conn;
 
