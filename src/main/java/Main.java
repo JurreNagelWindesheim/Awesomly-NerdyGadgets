@@ -36,9 +36,6 @@ public class Main {
     /* Delivery Routes */
     private static JPanel deliveryRoutesPanel = new JPanel();
     private static JButton goToMainButton2 = new JButton("Terug");
-    private static JScrollPane scollPane = new JScrollPane(deliveryRoutesPanel,
-                                                      ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                                                      ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
@@ -177,11 +174,9 @@ public class Main {
          * Position 0 in array routes is always the id from the specific route
          * Position 1 in array routes is always the routedata array from the specific route
         */
-        int i=0;
-        JTextArea outputTextArea = new JTextArea("",i,20);
 
         int y = 50;
-        for (i = 0; i < routes.size(); i++) {
+        for (int i = 0; i < routes.size(); i++) {
             System.out.println("Nummer " + i + ": " + routes.get(i));
             JLabel results = new JLabel(
                     "<html>" +
@@ -201,8 +196,6 @@ public class Main {
         });
 
         deliveryRoutesPanel.add(goToMainButton2);
-        deliveryRoutesPanel.add(scollPane);
-
         deliveryRoutesPanel.setVisible(true);
     }
 
