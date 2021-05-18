@@ -19,7 +19,8 @@ import java.util.ArrayList;
 
 /*API key: AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw */
 
-public class Main{
+public class Main {
+
     /* main screen */
     private static JFrame mainFrame = new JFrame();
     private static JPanel mainPanel = new JPanel();
@@ -40,7 +41,6 @@ public class Main{
     private static JPanel deliveryRoutesPanel = new JPanel();
     private static JButton goToMainButton2 = new JButton("Terug");
 
-
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
     private static JButton goToLogin = new JButton("Terug");
@@ -48,10 +48,9 @@ public class Main{
     private static JLabel routeGeneratedLabel = new JLabel();
     private static JLabel wrongLoginLabel = new JLabel();
 
-
     private static GraphPath perfectRoute;
 
-    public static void generateMainScreen(){
+    public static void generateMainScreen() {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.add(mainPanel, BorderLayout.CENTER);
 
@@ -66,6 +65,7 @@ public class Main{
                 generateLogin();
             }
         });
+
         showDeliveryRoutesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +87,7 @@ public class Main{
         mainFrame.setVisible(true);
     }
 
-    public static void generateLogin(){
+    public static void generateLogin() {
 
         mainFrame.add(loginPanel, BorderLayout.CENTER);
         loginPanel.setLayout(null);
@@ -139,12 +139,12 @@ public class Main{
 
             }
         });
-        loginPanel.add(loginButton);
 
+        loginPanel.add(loginButton);
         loginPanel.setVisible(true);
     }
 
-    public static void generateGenRoute(){
+    public static void generateGenRoute() {
         mainFrame.add(genRoutePanel, BorderLayout.CENTER);
         genRoutePanel.setLayout(null);
 
@@ -156,6 +156,7 @@ public class Main{
                 loginPanel.setVisible(true);
             }
         });
+
         genRouteButton.setBounds(860, 510, 200, 25);
         genRouteButton.addActionListener(new ActionListener() {
             @Override
@@ -168,15 +169,17 @@ public class Main{
                 }
             }
         });
+
         genRoutePanel.add(goToLogin);
         genRoutePanel.add(genRouteButton);
+
         routeGeneratedLabel.setBounds(860, 540, 200, 25);
         genRoutePanel.add(routeGeneratedLabel);
 
         genRoutePanel.setVisible(true);
     }
 
-    public static void generateDeliveryRoutes(){
+    public static void generateDeliveryRoutes() {
         mainFrame.add(deliveryRoutesPanel, BorderLayout.CENTER);
         deliveryRoutesPanel.setLayout(null);
 
@@ -244,12 +247,12 @@ public class Main{
         }
 
         /* insert password into db */
-//        try (Connection conn = dbconn.getConnection()) {
-//            hashPsswdStmt.insertPsswd(conn, "admin","password");
-//        dbclose.closeConnection(conn);
-//        } catch (Exception err) {
-//            System.out.println(err);
-//        }
+        /*try (Connection conn = dbconn.getConnection()) {
+            hashPsswdStmt.insertPsswd(conn, "admin","password");
+        dbclose.closeConnection(conn);
+        } catch (Exception err) {
+            System.out.println(err);
+        }*/
 
         /* Sets the size amount of the graph */
         SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<String, DefaultWeightedEdge>
@@ -305,10 +308,10 @@ public class Main{
                     graph.setEdgeWeight(e1, distance);
 
                     /* print all possible combinations on the given addresses */
-//                     System.out.println("Address combination: " + origin + ", " + destination);
-//                     System.out.println("Distance: " + distance);
-//                     System.out.println("Duration: " + duration);
-//                     System.out.println("-----------------------------------------------------------------------------------");
+                    /*System.out.println("Address combination: " + origin + ", " + destination);
+                    System.out.println("Distance: " + distance);
+                    System.out.println("Duration: " + duration);
+                    System.out.println("-----------------------------------------------------------------------------------"); */
                 }
             }
         }
