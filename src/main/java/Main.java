@@ -8,12 +8,8 @@ import org.jgrapht.graph.*;
 import javax.swing.*;
 import java.awt.*;
 
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
@@ -58,20 +54,14 @@ public class Main {
 
         showLoginButton.setBounds(775,510, 180,25);
         showDeliveryRoutesButton.setBounds(965, 510, 180, 25);
-        showLoginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainPanel.setVisible(false);
-                generateLogin();
-            }
+        showLoginButton.addActionListener(e -> {
+            mainPanel.setVisible(false);
+            generateLogin();
         });
 
-        showDeliveryRoutesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainPanel.setVisible(false);
-                displayDeliveryRoutes();
-            }
+        showDeliveryRoutesButton.addActionListener(e -> {
+            mainPanel.setVisible(false);
+            displayDeliveryRoutes();
         });
 
         mainPanel.add(showDeliveryRoutesButton);
@@ -93,12 +83,9 @@ public class Main {
         loginPanel.setLayout(null);
 
         goToMainButton.setBounds(10, 10, 100, 25);
-        goToMainButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginPanel.setVisible(false);
-                mainPanel.setVisible(true);
-            }
+        goToMainButton.addActionListener(e -> {
+            loginPanel.setVisible(false);
+            mainPanel.setVisible(true);
         });
         loginPanel.add(goToMainButton);
 
@@ -113,28 +100,25 @@ public class Main {
         loginPanel.add(passwordInput);
 
         loginButton.setBounds(910,557, 80,25);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String usernameText = usernameInput.getText();
-                String passwordText = passwordInput.getText();
+        loginButton.addActionListener(e -> {
+            String usernameText = usernameInput.getText();
+            String passwordText = passwordInput.getText();
 
-                /* Select user from db */
-                try (Connection conn = dbconn.getConnection()) {
-                    boolean user = selectuserStmt.selectUser(conn, usernameText,passwordText);
+            /* Select user from db */
+            try (Connection conn = dbconn.getConnection()) {
+                boolean user = selectuserStmt.selectUser(conn, usernameText,passwordText);
 
-                    if(user){
-                        loginPanel.setVisible(false);
-                        dbclose.closeConnection(conn);
-                        displayGenRoute();
-                    } else {
-                        wrongLoginLabel.setText("Verkeerde login gegevens");
-                        loginPanel.add(wrongLoginLabel);
-                        wrongLoginLabel.setBounds(860, 440, 200, 25);
-                    }
-                } catch (Exception err) {
-                    System.out.println(err);
+                if(user){
+                    loginPanel.setVisible(false);
+                    dbclose.closeConnection(conn);
+                    displayGenRoute();
+                } else {
+                    wrongLoginLabel.setText("Verkeerde login gegevens");
+                    loginPanel.add(wrongLoginLabel);
+                    wrongLoginLabel.setBounds(860, 440, 200, 25);
                 }
+            } catch (Exception err) {
+                System.out.println(err);
             }
         });
 
@@ -147,24 +131,18 @@ public class Main {
         genRoutePanel.setLayout(null);
 
         goToLogin.setBounds(10,10, 100, 25);
-        goToLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                genRoutePanel.setVisible(false);
-                loginPanel.setVisible(true);
-            }
+        goToLogin.addActionListener(e -> {
+            genRoutePanel.setVisible(false);
+            loginPanel.setVisible(true);
         });
 
         genRouteButton.setBounds(860, 510, 200, 25);
-        genRouteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                routeGeneratedLabel.setText("Route gegenereerd.");
-                try {
-                    generateRoute();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+        genRouteButton.addActionListener(e -> {
+            routeGeneratedLabel.setText("Route gegenereerd.");
+            try {
+                generateRoute();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         });
 
@@ -217,12 +195,9 @@ public class Main {
 //        results.setText(String.valueOf(routes));
 
         goToMainButton2.setBounds(10,10, 100, 25);
-        goToMainButton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deliveryRoutesPanel.setVisible(false);
-                mainPanel.setVisible(true);
-            }
+        goToMainButton2.addActionListener(e -> {
+            deliveryRoutesPanel.setVisible(false);
+            mainPanel.setVisible(true);
         });
 
         deliveryRoutesPanel.add(goToMainButton2);
