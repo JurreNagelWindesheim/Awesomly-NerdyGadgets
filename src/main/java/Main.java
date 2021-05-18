@@ -70,7 +70,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainPanel.setVisible(false);
-                generateDeliveryRoutes();
+                displayDeliveryRoutes();
             }
         });
 
@@ -126,7 +126,7 @@ public class Main {
                     if(user){
                         loginPanel.setVisible(false);
                         dbclose.closeConnection(conn);
-                        generateGenRoute();
+                        displayGenRoute();
                     } else {
                         wrongLoginLabel.setText("Verkeerde login gegevens");
                         loginPanel.add(wrongLoginLabel);
@@ -135,8 +135,6 @@ public class Main {
                 } catch (Exception err) {
                     System.out.println(err);
                 }
-
-
             }
         });
 
@@ -144,7 +142,7 @@ public class Main {
         loginPanel.setVisible(true);
     }
 
-    public static void generateGenRoute() {
+    public static void displayGenRoute() {
         mainFrame.add(genRoutePanel, BorderLayout.CENTER);
         genRoutePanel.setLayout(null);
 
@@ -179,7 +177,7 @@ public class Main {
         genRoutePanel.setVisible(true);
     }
 
-    public static void generateDeliveryRoutes() {
+    public static void displayDeliveryRoutes() {
         mainFrame.add(deliveryRoutesPanel, BorderLayout.CENTER);
         deliveryRoutesPanel.setLayout(null);
 
@@ -294,12 +292,6 @@ public class Main {
                             .getJSONObject(0)
                             .getJSONArray("elements")
                             .getJSONObject(0);
-                            /*.getJSONArray("duration")
-                            .getString("value");*/
-                            /*.getJSONObject(0)
-                            .getJSONLong("value");*/
-                            //.getJSONObject("distance")
-                            //.getJSONLong("value");
 
                     /* Puts the regular json in a json variable so you can print it */
                     Long distance = response.getJSONObject("distance").getLong("value");
