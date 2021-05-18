@@ -12,7 +12,8 @@ public class selectroutesStmt {
             stmt = conn.createStatement();
 
             /* execute query */
-            try (ResultSet rs = stmt.executeQuery("SELECT routeId, routeData FROM routes WHERE routeDate LIKE '2021-05-12%'")) {
+            try (ResultSet rs = stmt.executeQuery("SELECT routeId, routeData FROM routes WHERE routeDate LIKE '"+java.time.LocalDate.now()+"%'")) {
+            // try (ResultSet rs = stmt.executeQuery("SELECT routeId, routeData FROM routes WHERE routeDate LIKE '2021-05-12%'")) {
 
                 /* group routes in array */
                 ArrayList<String> routes = new ArrayList<>();
