@@ -36,6 +36,7 @@ public class Main {
     /* Delivery Routes */
     private static JPanel deliveryRoutesPanel = new JPanel();
     private static JButton goToMainButton2 = new JButton("Terug");
+    private static JComboBox<String> routeBox = new JComboBox<>();
 
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
@@ -44,7 +45,7 @@ public class Main {
     private static JLabel routeGeneratedLabel = new JLabel();
     private static JLabel wrongLoginLabel = new JLabel();
 
-    private static GraphPath perfectRoute;
+    private static GraphPath<String, DefaultWeightedEdge> perfectRoute;
 
     public static void generateMainScreen() {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -174,20 +175,14 @@ public class Main {
          * Position 0 in array routes is always the id from the specific route
          * Position 1 in array routes is always the routedata array from the specific route
         */
-
         int y = 50;
-        for (int i = 0; i < routes.size(); i++) {
-            System.out.println("Nummer " + i + ": " + routes.get(i));
-            JLabel results = new JLabel(
-                    "<html>" +
-                            "<ul>" +
-                                "<li>" + routes.get(i)+ "</li>" +
-                            "</ul>" +
-                         "<html>");
-            results.setBounds(200, y, 1900, 200);
-            deliveryRoutesPanel.add(results);
-            y = y + 50;
+        assert routes != null;
+        for (String route : routes) {
+            // System.out.println("Nummer " + i + ": " + routes.get(i));
+            routeBox.addItem("Route id " + route);
         }
+        routeBox.setBounds(200, 50, 400, 30);
+        deliveryRoutesPanel.add(routeBox);
 
         goToMainButton2.setBounds(10,10, 100, 25);
         goToMainButton2.addActionListener(e -> {
@@ -231,10 +226,6 @@ public class Main {
         /* Gets the amount of addresses and puts that in an int */
         int amountOfAddresses = Addresses.size();
 
-        /* Calculates the amount of possible combinations. */
-        // int totalCombinations = (amountOfAddresses * amountOfAddresses) - amountOfAddresses;
-        // System.out.println("The amount of combinations: " + totalCombinations + "\n");
-
         for (int a = 0; a < Addresses.size(); ++a) {
             /* Starts a loop that loops over every origin destination */
             String origin = Addresses.get(a);
@@ -268,16 +259,10 @@ public class Main {
 
                     graph.setEdgeWeight(e1, distance);
 
-                    /* print all possible combinations on the given addresses */
-                    /*System.out.println("Address combination: " + origin + ", " + destination);
-                    System.out.println("Distance: " + distance);
-                    System.out.println("Duration: " + duration);
-                    System.out.println("-----------------------------------------------------------------------------------"); */
                 }
             }
         }
-
-        GreedyHeuristicTSP tsp = new GreedyHeuristicTSP();
+        GreedyHeuristicTSP<String, DefaultWeightedEdge> tsp = new GreedyHeuristicTSP<>();
 
         System.out.println("De beste route is:");
         perfectRoute = tsp.getTour(graph);
@@ -325,7 +310,5 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        generateMainScreen();
-    }
+    public static void main(String[] args) {generateMainScreen();}
 }
