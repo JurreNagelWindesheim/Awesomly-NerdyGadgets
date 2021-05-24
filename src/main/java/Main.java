@@ -8,6 +8,8 @@ import org.jgrapht.graph.*;
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -37,6 +39,7 @@ public class Main {
     private static JPanel deliveryRoutesPanel = new JPanel();
     private static JButton goToMainButton2 = new JButton("Terug");
     private static JComboBox<String> routeBox = new JComboBox<>();
+    private static JLabel routeBoxLabel = new JLabel();
 
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
@@ -111,6 +114,7 @@ public class Main {
 
                 if(user){
                     loginPanel.setVisible(false);
+                    assert conn != null;
                     dbclose.closeConnection(conn);
                     displayGenRoute();
                 } else {
@@ -165,6 +169,7 @@ public class Main {
         /* Select routes from db */
         try (Connection conn = dbconn.getConnection()) {
             routes = selectroutesStmt.getRoutes(conn);
+            assert conn != null;
             dbclose.closeConnection(conn);
         } catch (Exception err) {
             System.out.println(err);
@@ -179,10 +184,16 @@ public class Main {
         assert routes != null;
         for (String route : routes) {
             // System.out.println("Nummer " + i + ": " + routes.get(i));
-            routeBox.addItem("Route id " + route);
+            routeBox.addItem("Route id: " + route);
         }
         routeBox.setBounds(200, 50, 400, 30);
         deliveryRoutesPanel.add(routeBox);
+
+//        buttonTest.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                routeBox.setSelectedItem("");
+//            }
+//        });
 
         goToMainButton2.setBounds(10,10, 100, 25);
         goToMainButton2.addActionListener(e -> {
@@ -203,6 +214,7 @@ public class Main {
         ArrayList<String> Addresses = null;
         try (Connection conn = dbconn.getConnection()) {
             Addresses = getAddressesStmt.getRoutes(conn);
+            assert conn != null;
             dbclose.closeConnection(conn);
         } catch (Exception err) {
             System.out.println(err);
@@ -217,8 +229,9 @@ public class Main {
         }*/
 
         /* Sets the size amount of the graph */
-        SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<String, DefaultWeightedEdge>
+        SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>
                 (DefaultWeightedEdge.class);
+        assert Addresses != null;
         for (String address : Addresses) {
             graph.addVertex(address);
         }
@@ -254,7 +267,7 @@ public class Main {
                             .getJSONObject(0);
 
                     /* Puts the regular json in a json variable so you can print it */
-                    Long distance = response.getJSONObject("distance").getLong("value");
+                    long distance = response.getJSONObject("distance").getLong("value");
                     Long duration = response.getJSONObject("duration") .getLong("value");
 
                     graph.setEdgeWeight(e1, distance);
