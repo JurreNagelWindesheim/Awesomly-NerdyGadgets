@@ -187,7 +187,7 @@ public class Main {
         assert routes != null;
         for (String route : routes) {
             // System.out.println("Nummer " + i + ": " + routes.get(i));
-            routeBox.addItem(route);
+            routeBox.addItem("Route id:" + route);
         }
 
         /* label for route selection */
@@ -221,9 +221,12 @@ public class Main {
             /* split result into id and route */
             assert selectedRoute != null;
             String[] parts = selectedRoute.split(",");
-            String selectedRoutePart1 = parts[0]; // id
-            String selectedRoutePart2 = parts[1]; // route
-            int selectedRouteInt = Integer.parseInt(selectedRoutePart1);
+            String selectedRoutePart1 = parts[0]; // routeid:(id)
+
+            String[] parts2 = selectedRoutePart1.split(":");
+            String selectedRoutePart2 = parts2[1]; // id
+
+            int selectedRouteInt = Integer.parseInt(selectedRoutePart2);
 
             /* update DB */
             try (Connection conn = dbconn.getConnection()) {
