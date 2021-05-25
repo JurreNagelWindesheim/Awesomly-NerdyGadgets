@@ -38,8 +38,11 @@ public class Main {
     /* Delivery Routes */
     private static JPanel deliveryRoutesPanel = new JPanel();
     private static JButton goToMainButton2 = new JButton("Terug");
+    private static JLabel routePanelLabel = new JLabel("Kies een route:");
     private static JComboBox<String> routeBox = new JComboBox<>();
-    private static JLabel routeBoxLabel = new JLabel();
+    private static JLabel driverId = new JLabel("Voer uw Driver ID in:");
+    private static JTextField driverIdInput = new JTextField();
+    private static JButton submitRouteToDriver = new JButton("Neem route aan");
 
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
@@ -180,28 +183,40 @@ public class Main {
          * Position 0 in array routes is always the id from the specific route
          * Position 1 in array routes is always the routedata array from the specific route
         */
-        int y = 50;
         assert routes != null;
         for (String route : routes) {
             // System.out.println("Nummer " + i + ": " + routes.get(i));
             routeBox.addItem("Route id: " + route);
         }
-        routeBox.setBounds(200, 50, 400, 30);
+
+        /* label for route selection */
+        routePanelLabel.setBounds(200, 60, 400, 30);
+        deliveryRoutesPanel.add(routePanelLabel);
+
+        /* Selectbox for routes */
+        routeBox.setBounds(200, 90, 400, 30);
         deliveryRoutesPanel.add(routeBox);
 
-//        buttonTest.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                routeBox.setSelectedItem("");
-//            }
-//        });
+        /* Label for type in driverId */
+        driverId.setBounds(200, 140, 400, 30);
+        deliveryRoutesPanel.add(driverId);
 
+        /* input for driverId */
+        driverIdInput.setBounds(200, 180, 200, 30);
+        deliveryRoutesPanel.add(driverIdInput);
+
+        /* submit button */
+        submitRouteToDriver.setBounds(200,220, 200, 25);
+        deliveryRoutesPanel.add(submitRouteToDriver);
+
+        /* back button */
         goToMainButton2.setBounds(10,10, 100, 25);
         goToMainButton2.addActionListener(e -> {
             deliveryRoutesPanel.setVisible(false);
             mainPanel.setVisible(true);
         });
-
         deliveryRoutesPanel.add(goToMainButton2);
+
         deliveryRoutesPanel.setVisible(true);
     }
 
