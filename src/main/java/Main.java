@@ -31,7 +31,7 @@ public class Main {
     private static JLabel username = new JLabel("Naam: ");
     private static JLabel password = new JLabel("Wachtwoord: ");
     private static JTextField usernameInput = new JTextField();
-    private static JTextField passwordInput = new JTextField();
+    private static JPasswordField passwordInput = new JPasswordField();
 
     /* Delivery Routes */
     private static JPanel deliveryRoutesPanel = new JPanel();
@@ -211,8 +211,16 @@ public class Main {
         deliveryRoutesPanel.add(submitRouteToDriver);
 
         submitRouteToDriver.addActionListener(e -> {
+
             /* make driverIdInputFromUser equal input from user */
-            driverIdInputFromUser = Integer.parseInt(driverIdInput.getText());
+            try {
+                driverIdInputFromUser = Integer.parseInt(driverIdInput.getText());
+            } catch (NumberFormatException eN) {
+                /* if it is a string stop from continuing */
+                messageBoxSelectRoute.infoBox("Er is iets fout gegaan. Probeer het opnieuw.", "Er is iets fout gegaan");
+                System.out.println(eN);
+                return;
+            }
 
             /* get user selected route */
             String selectedRoute = (String) routeBox.getSelectedItem();
@@ -232,7 +240,12 @@ public class Main {
             try (Connection conn = dbconn.getConnection()) {
                 updateRouteStmt.updatePeopleId(conn, driverIdInputFromUser, selectedRouteInt);
                 dbclose.closeConnection(conn);
+
+                /* messagebox for confirmation */
+                messageBoxSelectRoute.infoBox(selectedRoute, "Route geselecteerd!");
             } catch (Exception err) {
+                /* messagebox for confirmation */
+                messageBoxSelectRoute.infoBox("Er is iets fout gegaan. Probeer het opnieuw.", "Er is iets fout gegaan");
                 System.out.println(err);
             }
         });
