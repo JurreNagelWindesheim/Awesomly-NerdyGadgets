@@ -42,6 +42,8 @@ public class Main {
     private static JTextField driverIdInput = new JTextField();
     private static JButton submitRouteToDriver = new JButton("Neem route aan");
 
+    private static boolean isGenerated = false; // makes sure db conn is only done once
+
     /* generate route screen */
     private static JPanel genRoutePanel = new JPanel();
     private static JButton goToLogin = new JButton("Terug");
@@ -150,6 +152,8 @@ public class Main {
             routeGeneratedLabel.setText("Route gegenereerd.");
             try {
                 generateRoute();
+                // add route to combobox
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -171,22 +175,23 @@ public class Main {
         ArrayList<String> routes = new ArrayList<>();
 
         /* Select routes from db */
-        try (Connection conn = dbconn.getConnection()) {
-            routes = selectroutesStmt.getRoutes(conn);
-            assert conn != null;
-            dbclose.closeConnection(conn);
-        } catch (Exception err) {
-            System.out.println(err);
+        if(!isGenerated) {
+            try (Connection conn = dbconn.getConnection()) {
+                routes = selectroutesStmt.getRoutes(conn);
+                assert conn != null;
+                dbclose.closeConnection(conn);
+                isGenerated = true;
+            } catch (Exception err) {
+                System.out.println(err);
+            }
         }
 
-        /* loop trough results */
-        /*
+        /* loop trough results
          * Position 0 in array routes is always the id from the specific route
          * Position 1 in array routes is always the routedata array from the specific route
         */
         assert routes != null;
         for (String route : routes) {
-            // System.out.println("Nummer " + i + ": " + routes.get(i));
             routeBox.addItem("Route id:" + route);
         }
 
@@ -210,11 +215,17 @@ public class Main {
         submitRouteToDriver.setBounds(200,220, 200, 25);
         deliveryRoutesPanel.add(submitRouteToDriver);
 
+        ArrayList<String> finalRoutes = routes;
+        ArrayList<String> finalRoutes1 = routes;
         submitRouteToDriver.addActionListener(e -> {
 
             /* make driverIdInputFromUser equal input from user */
             try {
-                driverIdInputFromUser = Integer.parseInt(driverIdInput.getText());
+                if (driverIdInput.getText() != null) {
+                    driverIdInputFromUser = Integer.parseInt(driverIdInput.getText());
+                } else {
+                    messageBoxSelectRoute.infoBox("Er is iets fout gegaan. Probeer het opnieuw.", "Er is iets fout gegaan");
+                }
             } catch (NumberFormatException eN) {
                 /* if it is a string stop from continuing */
                 messageBoxSelectRoute.infoBox("Er is iets fout gegaan. Probeer het opnieuw.", "Er is iets fout gegaan");
@@ -225,24 +236,31 @@ public class Main {
             /* get user selected route */
             String selectedRoute = (String) routeBox.getSelectedItem();
             System.out.println(selectedRoute);
-
+            int selectedRouteInt = 0;
             /* split result into id and route */
-            assert selectedRoute != null;
-            String[] parts = selectedRoute.split(",");
-            String selectedRoutePart1 = parts[0]; // routeid:(id)
+            if (selectedRoute != null) {
+                String[] parts = selectedRoute.split(",");
+                String selectedRoutePart1 = parts[0]; // routeid:(id)
 
-            String[] parts2 = selectedRoutePart1.split(":");
-            String selectedRoutePart2 = parts2[1]; // id
+                String[] parts2 = selectedRoutePart1.split(":");
+                String selectedRoutePart2 = parts2[1]; // id
 
-            int selectedRouteInt = Integer.parseInt(selectedRoutePart2);
+                selectedRouteInt = Integer.parseInt(selectedRoutePart2);
+            }
 
             /* update DB */
             try (Connection conn = dbconn.getConnection()) {
-                updateRouteStmt.updatePeopleId(conn, driverIdInputFromUser, selectedRouteInt);
+                if(selectedRouteInt != 0) {
+                    updateRouteStmt.updatePeopleId(conn, driverIdInputFromUser, selectedRouteInt);
+                    /* messagebox for confirmation */
+                    messageBoxSelectRoute.infoBox(selectedRoute, "Route geselecteerd!");
+                }
                 dbclose.closeConnection(conn);
 
-                /* messagebox for confirmation */
-                messageBoxSelectRoute.infoBox(selectedRoute, "Route geselecteerd!");
+                /* delete chosen route from options and arraylist */
+                finalRoutes.remove(routeBox.getSelectedItem());
+                routeBox.removeItemAt(routeBox.getSelectedIndex());
+                System.out.println(finalRoutes);
             } catch (Exception err) {
                 /* messagebox for confirmation */
                 messageBoxSelectRoute.infoBox("Er is iets fout gegaan. Probeer het opnieuw.", "Er is iets fout gegaan");
