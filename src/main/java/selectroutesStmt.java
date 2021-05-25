@@ -19,7 +19,7 @@ public class selectroutesStmt {
                 ArrayList<String> routes = new ArrayList<>();
 
                 while (rs.next()) {
-                    routes.add(rs.getInt(1) + " " + rs.getString(2));
+                    routes.add(rs.getInt(1) + ", " + rs.getString(2));
                     System.out.println("route in db: "+ rs.getString(2));
                 }
                 return routes;

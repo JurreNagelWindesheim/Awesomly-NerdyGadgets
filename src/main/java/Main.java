@@ -8,8 +8,6 @@ import org.jgrapht.graph.*;
 import javax.swing.*;
 import java.awt.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -52,6 +50,9 @@ public class Main {
     private static JLabel wrongLoginLabel = new JLabel();
 
     private static GraphPath<String, DefaultWeightedEdge> perfectRoute;
+
+    /* driverId in class for everyone to use */
+    private static int driverIdInputFromUser;
 
     public static void generateMainScreen() {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,7 +187,7 @@ public class Main {
         assert routes != null;
         for (String route : routes) {
             // System.out.println("Nummer " + i + ": " + routes.get(i));
-            routeBox.addItem("Route id: " + route);
+            routeBox.addItem(route);
         }
 
         /* label for route selection */
@@ -208,6 +209,30 @@ public class Main {
         /* submit button */
         submitRouteToDriver.setBounds(200,220, 200, 25);
         deliveryRoutesPanel.add(submitRouteToDriver);
+
+        submitRouteToDriver.addActionListener(e -> {
+            /* make driverIdInputFromUser equal input from user */
+            driverIdInputFromUser = Integer.parseInt(driverIdInput.getText());
+
+            /* get user selected route */
+            String selectedRoute = (String) routeBox.getSelectedItem();
+            System.out.println(selectedRoute);
+
+            /* split result into id and route */
+            assert selectedRoute != null;
+            String[] parts = selectedRoute.split(",");
+            String selectedRoutePart1 = parts[0]; // id
+            String selectedRoutePart2 = parts[1]; // route
+            int selectedRouteInt = Integer.parseInt(selectedRoutePart1);
+
+            /* update DB */
+            try (Connection conn = dbconn.getConnection()) {
+                updateRouteStmt.updatePeopleId(conn, driverIdInputFromUser, selectedRouteInt);
+                dbclose.closeConnection(conn);
+            } catch (Exception err) {
+                System.out.println(err);
+            }
+        });
 
         /* back button */
         goToMainButton2.setBounds(10,10, 100, 25);
@@ -327,11 +352,9 @@ public class Main {
         }
         System.out.println("Total duration: " + totalduration);
 
-        int driverId = 3255;
-
         /* insert perfectroute into routes db */
         try (Connection conn = dbconn.getConnection()) {
-            insertPerfectrouteStmt.insertPerfectroute(conn, driverId, 4, perfectRoute);
+            insertPerfectrouteStmt.insertPerfectroute(conn, 4, perfectRoute);
         dbclose.closeConnection(conn);
         } catch (Exception err) {
             System.out.println(err);
