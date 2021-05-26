@@ -1,4 +1,4 @@
-package com.company;
+package company;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,6 @@ public class Main {
 
         NavToLoginBtn.addActionListener(e -> {
             mainPanel.setVisible(false);
-            System.out.println("Voor het genereren");
             loginView.generatePanel();
         });
     }

@@ -1,4 +1,4 @@
-package com.company;
+package company;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +10,7 @@ public class SecurePassword {
 
     public static String makeSHA256Psswd (String password) {
         String securePassword = get_SHA_256_SecurePassword(password);
-        System.out.println("Password hashed! Goodbye!");
+//        System.out.println("Password hashed! Goodbye!");
 
         return securePassword;
     }

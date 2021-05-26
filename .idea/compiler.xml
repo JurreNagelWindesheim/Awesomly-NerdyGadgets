@@ -6,11 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="nieuw temp app seperateClasses" />
+        <module name="routeapplication2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="nieuw temp app seperateClasses" target="15" />
-    </bytecodeTargetLevel>
   </component>
 </project>
