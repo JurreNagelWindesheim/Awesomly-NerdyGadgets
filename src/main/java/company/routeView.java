@@ -72,6 +72,7 @@ public class routeView {
             routeViewPanel.remove(inputDriverIdLabel);
             routeViewPanel.remove(inputDriverId);
             routeViewPanel.remove(submitDriverRouteButton);
+            routeViewPanel.remove(goToMainMenuButton);
             Main.mainPanel.setVisible(true);
         });
     }
