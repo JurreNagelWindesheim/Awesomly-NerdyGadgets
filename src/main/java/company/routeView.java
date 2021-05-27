@@ -38,6 +38,7 @@ public class routeView {
         cs.gridy = 4;
         cs.gridwidth = 4;
         routeViewPanel.add(routeSelectBox, cs);
+        routeSelectBox.setPrototypeDisplayValue("<Selecteer een route>"); // determines selectbox size
 
         JLabel inputDriverIdLabel = new JLabel("Voer uw driver ID in:");
         cs.gridx = 0;
@@ -144,7 +145,7 @@ public class routeView {
             if(selectedRouteId != 0) {
                 routeStmts.updatePeopleId(conn, inputDriverId, selectedRouteId);
                 /* messagebox for confirmation */
-                messageBox.infoBox(selectedRouteId + "", "Route geselecteerd!");
+                messageBox.infoBox("U heeft deze route geselecteerd:\n" + routeSelectBox.getSelectedItem() + "\nSucces!", "Route geselecteerd!");
             }
             assert conn != null;
             db.closeConnection(conn);

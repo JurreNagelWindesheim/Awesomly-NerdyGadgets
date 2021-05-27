@@ -20,7 +20,8 @@ public class Main {
 
         frame.setTitle("Route Applicatie");
         frame.pack();
-        frame.setSize(800, 600);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize(screenSize.width, screenSize.height);
         frame.setVisible(true);
 
         mainPanel.setLayout(new GridLayout(0,2));
