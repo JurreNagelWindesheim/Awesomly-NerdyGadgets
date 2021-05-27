@@ -5,11 +5,13 @@ import java.awt.*;
 
 public class Main {
 
+    public static JPanel mainPanel;
+
     /* main screen */
     public static JFrame frame = new JFrame();
     public static void generateGui() {
 
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         JButton NavToRouteViewBtn = new JButton("Route bekijken");
         JButton NavToLoginBtn = new JButton("Beheer login");
 

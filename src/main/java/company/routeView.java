@@ -12,13 +12,15 @@ public class routeView {
 
     public static JPanel routeViewPanel = new JPanel();
     public static GridBagConstraints cs = new GridBagConstraints();
-    private static JComboBox<String> routeSelectBox;
-    private static JButton submitDriverRouteButton;
+    public static JComboBox<String> routeSelectBox;
+    public static JButton submitDriverRouteButton;
+    public static JButton goToMainMenuButton;
 
     public static void generatePanel() {
         Main.frame.add(routeViewPanel);
         routeViewPanel.setLayout(new GridBagLayout());
         cs.fill = GridBagConstraints.HORIZONTAL;
+
 
         displaySelectForm();
         routeViewPanel.setVisible(true);
@@ -27,36 +29,51 @@ public class routeView {
     private static void displaySelectForm() {
         JLabel routeSelectBoxLabel = new JLabel("Selecteer een route:");
         cs.gridx = 0;
-        cs.gridy = 0;
+        cs.gridy = 2;
         cs.gridwidth = 1;
         routeViewPanel.add(routeSelectBoxLabel, cs);
 
         routeSelectBox = new JComboBox<>();
         cs.gridx = 0;
-        cs.gridy = 2;
+        cs.gridy = 4;
         cs.gridwidth = 4;
         routeViewPanel.add(routeSelectBox, cs);
 
         JLabel inputDriverIdLabel = new JLabel("Voer uw driver ID in:");
         cs.gridx = 0;
-        cs.gridy = 4;
+        cs.gridy = 6;
         cs.gridwidth = 1;
         routeViewPanel.add(inputDriverIdLabel, cs);
 
         JTextField inputDriverId = new JTextField();
         cs.gridx = 0;
-        cs.gridy = 6;
+        cs.gridy = 8;
         cs.gridwidth = 4;
         routeViewPanel.add(inputDriverId, cs);
 
         submitDriverRouteButton = new JButton("Route aannemen");
         cs.gridx = 0;
-        cs.gridy = 7;
+        cs.gridy = 9;
         cs.gridwidth = 4;
         cs.insets = new Insets(30,0,0,0);
         routeViewPanel.add(submitDriverRouteButton, cs);
 
         fillRouteSelectBox(inputDriverId);
+
+        goToMainMenuButton = new JButton("Terug naar hoofdmenu");
+        cs.gridx = 0;
+        cs.gridy = 0;
+        cs.gridwidth = 0;
+        routeViewPanel.add(goToMainMenuButton, cs);
+        goToMainMenuButton.addActionListener(e -> {
+            routeViewPanel.setVisible(false);
+            routeViewPanel.remove(routeSelectBoxLabel);
+            routeViewPanel.remove(routeSelectBox);
+            routeViewPanel.remove(inputDriverIdLabel);
+            routeViewPanel.remove(inputDriverId);
+            routeViewPanel.remove(submitDriverRouteButton);
+            Main.mainPanel.setVisible(true);
+        });
     }
 
     private static void fillRouteSelectBox(JTextField inputDriverId) {

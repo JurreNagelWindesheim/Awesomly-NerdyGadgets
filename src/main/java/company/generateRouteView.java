@@ -21,6 +21,8 @@ public class generateRouteView {
 
     private static GraphPath<String, DefaultWeightedEdge> perfectRoute;
 
+    private static int amountOfPacks;
+
     public static void generatePanel() {
         Main.frame.add(generateRoutePanel);
         generateRoutePanel.setLayout(new GridBagLayout());
@@ -31,16 +33,55 @@ public class generateRouteView {
     }
 
     private static void generateRouteButton() {
+        JLabel amountOfPacksLabel = new JLabel("Aantal pakjes per bus:");
+        cs.gridx = 0;
+        cs.gridy = 3;
+        cs.gridwidth = 1;
+        cs.insets = new Insets(30,0,0,0);
+        generateRoutePanel.add(amountOfPacksLabel, cs);
+
+        JTextField amountOfPacksInput = new JTextField("5");
+        cs.gridx = 0;
+        cs.gridy = 4;
+        cs.gridwidth = 4;
+        cs.insets = new Insets(0,0,0,0);
+        generateRoutePanel.add(amountOfPacksInput, cs);
+
         generateRouteButton = new JButton("Route genereren");
         cs.gridx = 0;
-        cs.gridy = 0;
+        cs.gridy = 6;
         cs.gridwidth = 4;
+        cs.insets = new Insets(30,0,0,0);
         generateRoutePanel.add(generateRouteButton, cs);
 
-        generateRouteButton.addActionListener(e -> generateRoute());
+        generateRouteButton.addActionListener(e -> generateRoute(amountOfPacksInput));
+
+        JButton goToMainMenuButton = new JButton("Terug naar hoofdmenu");
+        cs.gridx = 0;
+        cs.gridy = 0;
+        cs.gridwidth = 0;
+        generateRoutePanel.add(goToMainMenuButton, cs);
+        goToMainMenuButton.addActionListener(e -> {
+            generateRoutePanel.setVisible(false);
+            generateRoutePanel.remove(amountOfPacksLabel);
+            generateRoutePanel.remove(amountOfPacksInput);
+            generateRoutePanel.remove(goToMainMenuButton);
+            generateRoutePanel.remove(generateRouteButton);
+
+            loginView.loginPanel.remove(loginView.usernameLabel);
+            loginView.loginPanel.remove(loginView.usernameInput);
+            loginView.loginPanel.remove(loginView.passwordLabel);
+            loginView.loginPanel.remove(loginView.passwordInput);
+            loginView.loginPanel.remove(loginView.loginButton);
+            loginView.loginPanel.remove(loginView.goToMainMenuButton);
+            loginView.loginPanel.remove(goToMainMenuButton);
+            Main.mainPanel.setVisible(true);
+        });
     }
 
-    private static void generateRoute () {
+    private static void generateRoute(JTextField amountOfPacksInput) {
+
+
         /* The url set up string and the end string that contains the api key, this way it only has to be assigned once */
         String urlStart = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=driving&";
         String urlEnd = "&key=AIzaSyDuO4NZGFOU8LKAiyGYMLje4qIdUFXIZkw";
@@ -60,7 +101,13 @@ public class generateRouteView {
         amountOfAddresses--;
         boolean stop = false;
         int checkPoint = 0; //sets the next starting point.
-        int amountOfPacks = 5; //sets the amount of packages per route.
+        try {
+            amountOfPacks = Integer.parseInt(amountOfPacksInput.getText()); //sets the amount of packages per route.
+        } catch (NumberFormatException NFE){
+            messageBox.infoBox("Error. Maak er een nummer van", "Invoer is geen nummer");
+            stop = true;
+        }
+        System.out.println(amountOfPacks);
         int driverId = 3255;
         int totalDuration;
         int counter = 0;
