@@ -92,7 +92,6 @@ public class loginView {
                         generateRouteView.generatePanel();
                     }
                 } else {
-                    JLabel wrongLoginLabel = new JLabel("Verkeerde login gegevens");
                     messageBox.infoBox("Sorry! er is iets misgegaan bij het inloggen. Probeer het opnieuw", "Error!");
                     db.closeConnection(conn);
                 }

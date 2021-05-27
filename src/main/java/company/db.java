@@ -27,9 +27,7 @@ public class db {
                 /* loop through result */
                 while (rs.next()) {
                     Addresses.add(rs.getString(1));
-                    System.out.println("adress in db: "+ rs.getString(1));
                 }
-                System.out.println("array with addresses: " + Addresses);
                 return Addresses;
             }
         } catch (Exception e) {
@@ -51,7 +49,6 @@ public class db {
         /* create connection for a server installed in localhost */
         try {
             conn = DriverManager.getConnection("jdbc:mariadb://localhost/"+ db, user, password);
-            System.out.println("Connection to " + db + " was a success!");
             return conn;
         } catch (Exception e) {
             /* catch errors */
@@ -67,8 +64,6 @@ public class db {
             conn.close();
             conn = null;
             /* Print message everything closed */
-            System.out.println("DB connection close success, goodbye!");
-            System.out.println("-------------------------------------------------");
         } catch (SQLException se) {
             /* do nothing */
         } try {
@@ -77,9 +72,6 @@ public class db {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            /* Print message everything closed */
-            System.out.println("DB connection close success, goodbye!");
-            System.out.println("-------------------------------------------------");
         }
     }
 }

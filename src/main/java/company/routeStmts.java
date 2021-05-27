@@ -19,8 +19,6 @@ public class routeStmts {
 
             /* execute query */
             try (ResultSet rs = stmt.executeQuery("SELECT routeId, routeData FROM routes WHERE routeDate LIKE '"+java.time.LocalDate.now()+"%' AND peopleId IS NULL")) {
-            //    try (ResultSet rs = stmt.executeQuery("SELECT routeId, routeData FROM routes WHERE routeDate LIKE '2021-05-25%' AND peopleId IS NULL")) {
-
                 /* group routes in array */
                 ArrayList<String> routes = new ArrayList<>();
 

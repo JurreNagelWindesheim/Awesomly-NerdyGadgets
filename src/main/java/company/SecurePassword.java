@@ -10,7 +10,6 @@ public class SecurePassword {
 
     public static String makeSHA256Psswd (String password) {
         String securePassword = get_SHA_256_SecurePassword(password);
-//        System.out.println("Password hashed! Goodbye!");
 
         return securePassword;
     }
@@ -32,7 +31,13 @@ public class SecurePassword {
         return generatedPassword;
     }
 
-    public static void insertPsswd(Connection conn, String role, String password) throws NoSuchAlgorithmException {
+    public static void insertPsswd(Connection conn, String role, String password) {
+
+        /*
+        * This function makes a new user
+        * This function is currently not in use, but can be used in the future
+        * Currently as of 27-05-2021 there is only one administrator account
+        */
 
         password = SecurePassword.makeSHA256Psswd(password);
 

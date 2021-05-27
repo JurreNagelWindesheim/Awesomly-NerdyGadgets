@@ -74,6 +74,7 @@ public class routeView {
             routeViewPanel.remove(inputDriverId);
             routeViewPanel.remove(submitDriverRouteButton);
             routeViewPanel.remove(goToMainMenuButton);
+            cs.insets = new Insets(0,0,0,0);
             Main.mainPanel.setVisible(true);
         });
     }
@@ -142,7 +143,7 @@ public class routeView {
 
     private static void setDriverInDb(int selectedRouteId, int inputDriverId) {
         try (Connection conn = db.getConnection()) {
-            if(selectedRouteId != 0) {
+            if(selectedRouteId != 0 && inputDriverId != 0) {
                 routeStmts.updatePeopleId(conn, inputDriverId, selectedRouteId);
                 /* messagebox for confirmation */
                 messageBox.infoBox("U heeft deze route geselecteerd:\n" + routeSelectBox.getSelectedItem() + "\nSucces!", "Route geselecteerd!");
@@ -158,13 +159,11 @@ public class routeView {
     }
 
     private static void deleteRouteFromArrayAndSelect() {
-        System.out.println(routeSelectBox.getSelectedItem());
         String selectedItem = Objects.requireNonNull(routeSelectBox.getSelectedItem()).toString();
         String[] splittedResult = selectedItem.split(":");
         String splittedResultAfter = splittedResult[1];
 
         routes.remove(splittedResultAfter);
         routeSelectBox.removeItemAt(routeSelectBox.getSelectedIndex());
-        System.out.println(routes);
     }
 }

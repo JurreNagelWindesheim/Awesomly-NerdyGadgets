@@ -107,8 +107,6 @@ public class generateRouteView {
             messageBox.infoBox("Error. Maak er een nummer van", "Invoer is geen nummer");
             stop = true;
         }
-        System.out.println(amountOfPacks);
-        int driverId = 3255;
         int totalDuration;
         int counter = 0;
         while(!stop) {
@@ -123,7 +121,6 @@ public class generateRouteView {
                 int c = quiter - amountOfAddresses;
                 quiter -= c;
             }
-            System.out.println("quiter is: " + quiter);
             int x = 0;
             while (x <= quiter) {
                 if (x == 0) {
@@ -178,7 +175,6 @@ public class generateRouteView {
             GreedyHeuristicTSP tsp = new GreedyHeuristicTSP();
             perfectRoute = tsp.getTour(graph);
             String tempString = "" + perfectRoute;
-            System.out.println(tempString);
             tempString = tempString.replace("[", "");
             tempString = tempString.replace("]", "");
             String[] arrOfAddresses = tempString.split(", ");
@@ -206,13 +202,10 @@ public class generateRouteView {
             if (counter == 1 && amountOfPacks == 1) {
                 counter = 2;
             }
-            System.out.println("counter is: " + counter);
-            System.out.println("amount of packages: " + amountOfPacks);
             checkPoint = counter * amountOfPacks;
             if (amountOfPacks > 1) {
                 checkPoint++;
             }
-            System.out.println("checkpoint is: " + checkPoint);
             if (checkPoint > amountOfAddresses) {
                 amountOfPacks = amountOfAddresses - checkPoint;
                 stop = true;
@@ -227,5 +220,6 @@ public class generateRouteView {
                 System.out.println(err);
             }
         }
+        messageBox.infoBox("De routes zijn gegenereerd!\nRoutes kunnen nu gekozen worden door de bezorgers.", "Routes gegenereerd");
     }
 }
